@@ -1,9 +1,15 @@
+import get from 'lodash-es/get'
+
 class StringUtils {
 
   constructor(options = {}) {
     this._humanizeMap = options.humanize || {};
     this._shortenMap = options.shorten || {};
     this._replacements = options.replacements || {};
+  }
+
+  get(object, path, fallback = '') {
+    return get(object, path, fallback);
   }
 
   dasherize(string) {

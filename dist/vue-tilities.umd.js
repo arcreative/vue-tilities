@@ -1,14 +1,20 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.VuexJsonapi = {}));
-}(this, function (exports) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('lodash-es/get')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'lodash-es/get'], factory) :
+  (global = global || self, factory(global.VuexJsonapi = {}, global.get));
+}(this, function (exports, get) { 'use strict';
+
+  get = get && get.hasOwnProperty('default') ? get['default'] : get;
 
   class StringUtils {
     constructor(options = {}) {
       this._humanizeMap = options.humanize || {};
       this._shortenMap = options.shorten || {};
       this._replacements = options.replacements || {};
+    }
+
+    get(object, path, fallback = '') {
+      return get(object, path, fallback);
     }
 
     dasherize(string) {

@@ -2,11 +2,19 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var get = _interopDefault(require('lodash-es/get'));
+
 class StringUtils {
   constructor(options = {}) {
     this._humanizeMap = options.humanize || {};
     this._shortenMap = options.shorten || {};
     this._replacements = options.replacements || {};
+  }
+
+  get(object, path, fallback = '') {
+    return get(object, path, fallback);
   }
 
   dasherize(string) {
