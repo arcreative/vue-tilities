@@ -69,23 +69,55 @@ class StringUtils {
 
 }
 
-var installFilters = ((Vue, stringUtils) => {
+class MomentUtils {
+  constructor(moment) {
+    if (!moment) {
+      throw new Error('Please pass your localized version of moment to DateTimeUtils');
+    }
+
+    this._moment = moment;
+  }
+
+  date(date, format = 'll') {
+    return this._moment(date).format(format);
+  }
+
+  time(date, format = 'LT') {
+    return this.date(date, format);
+  }
+
+  datetime(date, format = 'LLL') {
+    return this.date(date, format);
+  }
+
+}
+
+var installFilters = ((Vue, stringUtils, momentUtils = null) => {
+  Vue.prototype.$utils = Vue.prototype.$utils || {}; // String utils
+
   Object.getOwnPropertyNames(StringUtils.prototype).forEach(method => {
     if (method === 'constructor') return;
     Vue.filter(method, stringUtils[method].bind(stringUtils));
   });
-  Vue.prototype.$utils = Vue.prototype.$utils || {};
-  Vue.prototype.$utils.string = stringUtils;
+  Vue.prototype.$utils.string = stringUtils; // Moment.js utils
+
+  if (momentUtils) {
+    Object.getOwnPropertyNames(MomentUtils.prototype).forEach(method => {
+      if (method === 'constructor') return;
+      Vue.filter(method, momentUtils[method].bind(momentUtils));
+    });
+  }
 });
 
 var index_esm = {
   version: '0.1.0',
 
   install(Vue, options = {}) {
-    installFilters(Vue, options.stringUtils || new StringUtils());
+    installFilters(Vue, options.stringUtils || new StringUtils(), options.momentUtils);
   }
 
 };
 
 exports.default = index_esm;
 exports.StringUtils = StringUtils;
+exports.MomentUtils = MomentUtils;

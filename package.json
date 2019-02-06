@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/arcreative/vue-tilities#readme",
   "dependencies": {
-    "moment": "^2.24.0",
     "rollup-plugin-replace": "^2.1.0"
   },
   "devDependencies": {
