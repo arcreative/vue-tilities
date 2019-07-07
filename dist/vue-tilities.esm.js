@@ -1,4 +1,5 @@
 import get from 'lodash-es/get';
+import map from 'lodash-es/map';
 
 class StringUtils {
   constructor(options = {}) {
@@ -16,7 +17,7 @@ class StringUtils {
     return string.toLowerCase().replace(/[^a-z\s]/g, ' ').replace(/\s[\s]+/g, ' ').replace(/\s/g, '-');
   }
 
-  humanize(string) {
+  humanize(string, title = false) {
     string = (string || '') + '';
 
     if (this._humanizeMap[string]) {
@@ -24,7 +25,7 @@ class StringUtils {
     }
 
     string = this.underscore(string, ' ');
-    string = this.ucfirst(string);
+    string = title ? map(string.split(' '), this.ucfirst).join(' ') : this.ucfirst(string);
 
     for (var search in this._replacements) {
       if (this._replacements.hasOwnProperty(search)) {
@@ -43,9 +44,9 @@ class StringUtils {
     }
   }
 
-  title(string) {
+  titleize(string) {
     string = (string || '') + '';
-    return this.ucfirst(string.toLowerCase());
+    return this.humanize(string, true);
   }
 
   ucfirst(string) {

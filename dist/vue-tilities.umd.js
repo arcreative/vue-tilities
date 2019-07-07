@@ -1,10 +1,11 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('lodash-es/get')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'lodash-es/get'], factory) :
-  (global = global || self, factory(global.VuexJsonapi = {}, global.get));
-}(this, function (exports, get) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('lodash-es/get'), require('lodash-es/map')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'lodash-es/get', 'lodash-es/map'], factory) :
+  (global = global || self, factory(global.VuexJsonapi = {}, global.get, global.map));
+}(this, function (exports, get, map) { 'use strict';
 
   get = get && get.hasOwnProperty('default') ? get['default'] : get;
+  map = map && map.hasOwnProperty('default') ? map['default'] : map;
 
   class StringUtils {
     constructor(options = {}) {
@@ -22,7 +23,7 @@
       return string.toLowerCase().replace(/[^a-z\s]/g, ' ').replace(/\s[\s]+/g, ' ').replace(/\s/g, '-');
     }
 
-    humanize(string) {
+    humanize(string, title = false) {
       string = (string || '') + '';
 
       if (this._humanizeMap[string]) {
@@ -30,7 +31,7 @@
       }
 
       string = this.underscore(string, ' ');
-      string = this.ucfirst(string);
+      string = title ? map(string.split(' '), this.ucfirst).join(' ') : this.ucfirst(string);
 
       for (var search in this._replacements) {
         if (this._replacements.hasOwnProperty(search)) {
@@ -49,9 +50,9 @@
       }
     }
 
-    title(string) {
+    titleize(string) {
       string = (string || '') + '';
-      return this.ucfirst(string.toLowerCase());
+      return this.humanize(string, true);
     }
 
     ucfirst(string) {
