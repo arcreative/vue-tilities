@@ -2859,7 +2859,15 @@ class MomentUtils {
     this._moment = moment;
   }
 
+  validate(date) {
+    if (!this._moment(date).isValid()) {
+      throw new Error(`Date: ${date} is not valid.`);
+    }
+  }
+
   date(date, format = 'll') {
+    if (!date) return '';
+    this.validate(date);
     return this._moment(date).format(format);
   }
 
@@ -2891,7 +2899,7 @@ var installFilters = ((Vue, stringUtils, momentUtils = null) => {
 });
 
 var index_esm = {
-  version: '0.1.0',
+  version: '0.2.0',
 
   install(Vue, options = {}) {
     installFilters(Vue, options.stringUtils || new StringUtils(), options.momentUtils);
