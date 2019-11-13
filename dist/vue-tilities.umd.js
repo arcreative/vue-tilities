@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.VuexJsonapi = {}));
-}(this, (function (exports) { 'use strict';
+}(this, function (exports) { 'use strict';
 
   /**
    * Checks if `value` is classified as an `Array` object.
@@ -2905,7 +2905,7 @@
   });
 
   var index_esm = {
-    version: '0.2.0',
+    version: '0.3.0',
 
     install(Vue, options = {}) {
       installFilters(Vue, options.stringUtils || new StringUtils(), options.momentUtils);
@@ -2919,4 +2919,4 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));

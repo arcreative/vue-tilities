@@ -2903,7 +2903,7 @@ var installFilters = ((Vue, stringUtils, momentUtils = null) => {
 });
 
 var index_esm = {
-  version: '0.2.0',
+  version: '0.3.0',
 
   install(Vue, options = {}) {
     installFilters(Vue, options.stringUtils || new StringUtils(), options.momentUtils);
