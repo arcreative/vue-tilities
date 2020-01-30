@@ -2853,13 +2853,13 @@ class StringUtils {
 class MomentUtils {
   constructor(moment) {
     if (!moment) {
-      throw new Error('Please pass your localized version of moment to DateTimeUtils');
+      throw new Error('Please pass your localized version of moment to MomentUtils');
     }
 
     this._moment = moment;
   }
 
-  validate(date) {
+  validate_date(date) {
     if (!this._moment(date).isValid()) {
       throw new Error(`Date: ${date} is not valid.`);
     }
@@ -2867,7 +2867,7 @@ class MomentUtils {
 
   date(date, format = 'll') {
     if (!date) return '';
-    this.validate(date);
+    this.validate_date(date);
     return this._moment(date).format(format);
   }
 
@@ -2881,7 +2881,30 @@ class MomentUtils {
 
 }
 
-var installFilters = ((Vue, stringUtils, momentUtils = null) => {
+class NumeralUtils {
+  constructor(numeral) {
+    if (!numeral) {
+      throw new Error('Please pass your localized version of numeral to NumeralUtils');
+    }
+
+    this._numeral = numeral;
+  }
+
+  validate_number(number) {
+    if (isNaN(this._numeral(number).value())) {
+      throw new Error(`Number: ${number} is not valid.`);
+    }
+  }
+
+  number(number, format = '0,0[.]00') {
+    if (!number) return '';
+    this.validate_number(number);
+    return this._numeral(number).format(format);
+  }
+
+}
+
+var installFilters = ((Vue, stringUtils, momentUtils = null, numeralUtils = null) => {
   Vue.prototype.$utils = Vue.prototype.$utils || {}; // String utils
 
   Object.getOwnPropertyNames(StringUtils.prototype).forEach(method => {
@@ -2895,6 +2918,16 @@ var installFilters = ((Vue, stringUtils, momentUtils = null) => {
       if (method === 'constructor') return;
       Vue.filter(method, momentUtils[method].bind(momentUtils));
     });
+    Vue.prototype.$utils.moment = momentUtils._moment;
+  } // Numeral.js utils
+
+
+  if (numeralUtils) {
+    Object.getOwnPropertyNames(NumeralUtils.prototype).forEach(method => {
+      if (method === 'constructor') return;
+      Vue.filter(method, numeralUtils[method].bind(numeralUtils));
+    });
+    Vue.prototype.$utils.numeral = numeralUtils._numeral;
   }
 });
 
@@ -2902,10 +2935,10 @@ var index_esm = {
   version: '0.3.0',
 
   install(Vue, options = {}) {
-    installFilters(Vue, options.stringUtils || new StringUtils(), options.momentUtils);
+    installFilters(Vue, options.stringUtils || new StringUtils(), options.momentUtils, options.numeralUtils);
   }
 
 };
 
 export default index_esm;
-export { MomentUtils, StringUtils };
+export { MomentUtils, NumeralUtils, StringUtils };

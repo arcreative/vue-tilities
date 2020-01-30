@@ -2,12 +2,12 @@ class MomentUtils {
 
   constructor(moment) {
     if (!moment) {
-      throw new Error('Please pass your localized version of moment to DateTimeUtils');
+      throw new Error('Please pass your localized version of moment to MomentUtils');
     }
     this._moment = moment;
   }
 
-  validate(date) {
+  validate_date(date) {
     if (!this._moment(date).isValid()) {
       throw new Error(`Date: ${date} is not valid.`);
     }
@@ -15,7 +15,7 @@ class MomentUtils {
 
   date(date, format = 'll') {
     if (!date) return '';
-    this.validate(date);
+    this.validate_date(date);
     return this._moment(date).format(format);
   }
 
