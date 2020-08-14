@@ -1,6 +1,6 @@
 {
   "name": "vue-tilities",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "jsonapi.org API layer for Vue.js applications",
   "main": "dist/vue-tilities.cjs.js",
   "module": "dist/vue-tilities.esm.js",
