@@ -2900,8 +2900,8 @@ class NumeralUtils {
     }
   }
 
-  number(number, format = '0,0[.]00') {
-    if (!number) return '';
+  number(number, format = '0,0[.]00', fallback = '') {
+    if (number === null || typeof number === 'undefined') return fallback;
     this.validate_number(number);
     return this._numeral(number).format(format);
   }
