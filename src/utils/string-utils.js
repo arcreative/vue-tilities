@@ -1,5 +1,13 @@
-import get from 'lodash-es/get'
-import map from 'lodash-es/map'
+// Lodash .get replacement from https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_get
+const get = (obj, path, defaultValue = undefined) => {
+  const travel = regexp =>
+      String.prototype.split
+          .call(path, regexp)
+          .filter(Boolean)
+          .reduce((res, key) => (res !== null && res !== undefined ? res[key] : res), obj);
+  const result = travel(/[,[\]]+?/) || travel(/[,[\].]+?/);
+  return result === undefined || result === obj ? defaultValue : result;
+};
 
 class StringUtils {
 
@@ -30,7 +38,7 @@ class StringUtils {
     }
 
     string = this.underscore(string, ' ');
-    string = title ? map(string.split(' '), this.ucfirst).join(' ') : this.ucfirst(string);
+    string = title ? string.split(' ').map(this.ucfirst).join(' ') : this.ucfirst(string);
     for (var search in this._replacements) {
       if (this._replacements.hasOwnProperty(search)) {
         string = string.replace(search, this._replacements[search]);

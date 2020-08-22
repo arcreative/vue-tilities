@@ -35,8 +35,6 @@
   "dependencies": {
     "braces": "~3.0.2",
     "kind-of": "^6.0.3",
-    "lodash": "^4.17.15",
-    "lodash-es": "^4.17.15",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-replace": "^2.1.0"
   },
